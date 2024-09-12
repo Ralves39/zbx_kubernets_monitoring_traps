@@ -16,6 +16,7 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
         curl \
+        vim \
         iputils-ping \
         python3 \
         python3-pip \
