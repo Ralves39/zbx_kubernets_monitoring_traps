@@ -1,0 +1,98 @@
+namespace:
+  name: zabbix-monitoring
+
+rbac:
+  create: true
+  name: zabbix-kubernetes-discovery
+  rolebinding: zabbix-kubernetes-discovery
+
+serviceAccount:
+  create: true
+  name: zabbix-kubernetes-discovery
+
+deployment:
+  name: zabbix-kubernetes-discovery
+  image:
+    name: ghcr.io/djerfy/zabbix-kubernetes-discovery:v1.4.17
+    pullPolicy: IfNotPresent
+  replicas: 1
+  strategy: Recreate
+
+environment:
+  ZABBIX_ENDPOINT:
+  KUBERNETES_NAME:
+  #KUBECONFIG: "<kubeconfig_base64>"
+
+zabbix:
+  timeout: 5
+  verbose: 'no'
+  debug: 'no'
+
+monitoring:
+  node:
+    match_label: ''
+    include_name: ''
+    exclude_name: ''
+  daemonset:
+    match_label: ''
+    include_name: ''
+    include_namespace: ''
+    exclude_name: ''
+    exclude_namespace: ''
+  volume:
+    match_label: ''
+    include_name: ''
+    include_namespace: ''
+    exclude_name: ''
+    exclude_namespace: ''
+  deployment:
+    match_label: ''
+    include_name: ''
+    include_namespace: ''
+    exclude_name: ''
+    exclude_namespace: ''
+  statefulset:
+    match_label: ''
+    include_name: ''
+    include_namespace: ''
+    exclude_name: ''
+    exclude_namespace: ''
+  cronjob:
+    match_label: ''
+    include_name: ''
+    include_namespace: ''
+    exclude_name: ''
+    exclude_namespace: ''
+
+crontab:
+  name: zabbix-kubernetes-discovery
+  node:
+    discovery: '*/30 * * * *'
+    item: '*/2 * * * *'
+  daemonset:
+    discovery: '*/30 * * * *'
+    item: '*/2 * * * *'
+  volume:
+    discovery: '*/30 * * * *'
+    item: '*/2 * * * *'
+  deployment:
+    discovery: '*/30 * * * *'
+    item: '*/2 * * * *'
+  statefulset:
+    discovery: '*/30 * * * *'
+    item: '*/2 * * * *'
+  cronjob:
+    discovery: '*/30 * * * *'
+    item: '*/2 * * * *'
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

@@ -1,0 +1,29 @@
+name: Helm Release
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  helm-release:
+    name: Helm Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Publish Helm chart
+        uses: stefanprodan/helm-gh-pages@v1.7.0
+        if: github.event_name != 'pull_request'
+        with:
+          token: ${{ secrets.HELM_PUBLISH_TOKEN }}
+          charts_dir: helm
+          charts_url: https://djerfy.github.io/helm-charts
+          owner: ${{ secrets.HELM_PUBLISH_OWNER }}
+          repository: helm-charts
+          branch: main
